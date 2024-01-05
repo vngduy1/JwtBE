@@ -1,0 +1,6 @@
+.env
+.prettierrc
+
+node_modules/
+package-lock
+package
