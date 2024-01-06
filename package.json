@@ -4,7 +4,7 @@
   "description": "jwt nodejs react",
   "main": "server.js",
   "scripts": {
-    "beautiful": "prettier --single-quote --trailing-comma all --tab-width 4 --write 'src/**/*.{js,json}'",
+    "beautiful": "prettier --single-quote --trailing-comma all --tab-width 4 --write 'src/**/*.{js,json,ejs}'",
     "watch": "node-sass --watch",
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "nodemon --exec babel-node src/server.js"
