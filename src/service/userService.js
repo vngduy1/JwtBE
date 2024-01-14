@@ -1,6 +1,6 @@
 import bcrypt from 'bcryptjs'
-import mysql from 'mysql2/promise'
-import bluebird from 'bluebird'
+// import mysql from 'mysql2/promise'
+// import bluebird from 'bluebird'
 
 import db from '../models/index'
 
@@ -39,7 +39,7 @@ const getUserList = async () => {
     raw: true,
     nest: true,
   })
-  console.log('check new users: ', newUser)
+  // console.log('check new users: ', newUser)
   // console.log('check new roles: ', roles)
 
   let users = []
