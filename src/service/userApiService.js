@@ -23,6 +23,39 @@ const getAllUser = async () => {
   }
 }
 
+const getUserWithPagination = async (page, limit) => {
+  try {
+    let offset = (page - 1) * limit
+
+    const { count, rows } = await db.User.findAndCountAll({
+      offset: offset,
+      limit: limit,
+      attributes: ['id', 'username', 'email', 'sex'],
+      include: { model: db.Group, attributes: ['name', 'description'] },
+    })
+
+    let totalPages = Math.ceil(count / limit)
+    let data = {
+      totalRows: count,
+      totalPages: totalPages,
+      users: rows,
+    }
+
+    return {
+      EM: 'fetch success',
+      EC: 0,
+      DT: data,
+    }
+  } catch (error) {
+    console.log(error)
+    return {
+      EM: 'something wrongs with services',
+      EC: 1,
+      DT: [],
+    }
+  }
+}
+
 const createNewUser = async (data) => {
   try {
     await db.User.create({})
@@ -49,11 +82,30 @@ const updateUser = async (data) => {
 
 const deleteUser = async (id) => {
   try {
-    await db.User.delete({
+    let user = await db.User.findOne({
       where: { id: id },
     })
+    if (user) {
+      await user.destroy()
+      return {
+        EM: 'Delete user success',
+        EC: 0,
+        DT: [],
+      }
+    } else {
+      return {
+        EM: 'user not exist',
+        EC: 2,
+        DT: [],
+      }
+    }
   } catch (error) {
     console.log(error)
+    return {
+      EM: 'error from service',
+      EC: 1,
+      DT: [],
+    }
   }
 }
 
@@ -62,4 +114,5 @@ module.exports = {
   createNewUser,
   updateUser,
   deleteUser,
+  getUserWithPagination,
 }
