@@ -1,4 +1,3 @@
-import e from 'express'
 import userApiService from '../service/userApiService'
 
 const readUser = async (req, res) => {
@@ -21,21 +20,28 @@ const readUser = async (req, res) => {
       })
     }
   } catch (error) {
-    console.log(e)
+    console.log(error)
     return res.status(500).json({
-      EM: 'error from server',
+      EM: 'error from readUser server',
       EC: -1,
       DT: '',
     })
   }
 }
 
-const createUser = (req, res) => {
+const createUser = async (req, res) => {
   try {
+    //Validate sau do
+    let data = await userApiService.createNewUser(req.body)
+    return res.status(200).json({
+      EM: data.EM,
+      EC: data.EC,
+      DT: data.DT,
+    })
   } catch (error) {
     console.log(error)
     return res.status(500).json({
-      EM: 'error from server',
+      EM: 'error from createUser server',
       EC: -1,
       DT: '',
     })
@@ -47,7 +53,7 @@ const updateUser = (req, res) => {
   } catch (error) {
     console.log(error)
     return res.status(500).json({
-      EM: 'error from server',
+      EM: 'error from updateUser server',
       EC: -1,
       DT: '',
     })
@@ -65,7 +71,7 @@ const deleteUser = async (req, res) => {
   } catch (error) {
     console.log(error)
     return res.status(500).json({
-      EM: 'error from server',
+      EM: 'error from deleteUser server',
       EC: -1,
       DT: '',
     })
