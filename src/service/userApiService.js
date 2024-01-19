@@ -1,6 +1,7 @@
 import db from '../models/index'
 
 //lấy data
+
 const getAllUser = async () => {
   try {
     let users = await db.User.findAll({
@@ -15,11 +16,19 @@ const getAllUser = async () => {
         DT: users,
       }
     } else {
-      return { EM: 'get data success', EC: '0', DT: [] }
+      return {
+        EM: 'get data success',
+        EC: '0',
+        DT: [],
+      }
     }
   } catch (e) {
     console.log(e)
-    return { EM: 'something wrongs with service', EC: '0', DT: data }
+    return {
+      EM: 'something wrongs with getAllUser service',
+      EC: 1,
+      DT: [],
+    }
   }
 }
 
@@ -42,14 +51,14 @@ const getUserWithPagination = async (page, limit) => {
     }
 
     return {
-      EM: 'fetch success',
+      EM: 'fetch getUserWithPagination success',
       EC: 0,
       DT: data,
     }
   } catch (error) {
     console.log(error)
     return {
-      EM: 'something wrongs with services',
+      EM: 'something wrongs with getUserWithPagination services',
       EC: 1,
       DT: [],
     }
@@ -58,9 +67,19 @@ const getUserWithPagination = async (page, limit) => {
 
 const createNewUser = async (data) => {
   try {
-    await db.User.create({})
+    await db.User.create(data)
+    return {
+      EM: 'createNewUser success',
+      EC: 0,
+      DT: [],
+    }
   } catch (error) {
     console.log(error)
+    return {
+      EM: 'something wrongs with createNewUser services',
+      EC: -1,
+      DT: [],
+    }
   }
 }
 
@@ -72,11 +91,26 @@ const updateUser = async (data) => {
     if (user) {
       //update
       user.save({})
+      return {
+        EM: 'update success',
+        EC: 0,
+        DT: [],
+      }
     } else {
       //not found
+      return {
+        EM: 'updateUser not found',
+        EC: -1,
+        DT: [],
+      }
     }
   } catch (error) {
     console.log(error)
+    return {
+      EM: 'something wrongs with updateUser services',
+      EC: 2,
+      DT: [],
+    }
   }
 }
 
@@ -94,7 +128,7 @@ const deleteUser = async (id) => {
       }
     } else {
       return {
-        EM: 'user not exist',
+        EM: 'deleteUser not exist',
         EC: 2,
         DT: [],
       }
@@ -102,7 +136,7 @@ const deleteUser = async (id) => {
   } catch (error) {
     console.log(error)
     return {
-      EM: 'error from service',
+      EM: 'error from deleteUser service',
       EC: 1,
       DT: [],
     }
