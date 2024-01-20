@@ -48,8 +48,15 @@ const createUser = async (req, res) => {
   }
 }
 
-const updateUser = (req, res) => {
+const updateUser = async (req, res) => {
   try {
+    //Validate sau do
+    let data = await userApiService.updateUser(req.body)
+    return res.status(200).json({
+      EM: data.EM,
+      EC: data.EC,
+      DT: data.DT,
+    })
   } catch (error) {
     console.log(error)
     return res.status(500).json({
