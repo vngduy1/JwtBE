@@ -9,10 +9,15 @@ const router = express.Router()
  *
  * @param {*} app init api
  */
+const testMiddleware = (req, res, next) => {
+  console.log('call middleware')
+  next()
+}
+
 const initAPiRoutes = (app) => {
   router.get('/test-api', apiController.testApi)
   router.post('/register', apiController.handleRegister)
-  router.post('/login', apiController.handleLogin)
+  router.post('/login', testMiddleware, apiController.handleLogin)
 
   router.get('/user/read', userController.readUser)
   router.post('/user/create', userController.createUser)
