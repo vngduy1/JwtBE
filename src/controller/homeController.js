@@ -6,8 +6,6 @@ const homeController = (req, res) => {
 
 const userController = async (req, res) => {
   let userList = await userService.getUserList()
-
-  await userService.deleteUser(4)
   res.render('user.ejs', { userList })
 }
 

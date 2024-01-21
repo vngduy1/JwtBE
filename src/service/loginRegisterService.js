@@ -1,6 +1,9 @@
 import db from '../models/index'
 import bcrypt from 'bcryptjs'
 import { Op } from 'sequelize'
+import { getGroupWithRoles } from './JwtService'
+import { createJwt } from '../middleware/JWTAction'
+require('dotenv').config()
 
 const salt = bcrypt.genSaltSync(10)
 
@@ -48,6 +51,7 @@ const registerNewUser = async (rawUserData) => {
       username: rawUserData.username,
       password: hashPassword,
       phone: rawUserData.phone,
+      groupId: 4,
     })
 
     return {
@@ -77,13 +81,26 @@ const handleUserLogin = async (rawData) => {
     if (user) {
       let isCorrectPassword = checkPassword(rawData.password, user.password)
       if (isCorrectPassword === true) {
+        // let token
+
+        //test token
+        let groupWithRoles = await getGroupWithRoles(user)
+        let payload = {
+          email: user.email,
+          groupWithRoles,
+          expiresIn: process.env.JWT_EXPIRES_IN,
+        }
+
+        let token = createJwt(payload)
         return {
-          EM: 'success',
+          EM: '成功',
           EC: 0,
-          DT: '',
+          DT: {
+            access_token: token,
+            groupWithRoles,
+          },
         }
       }
-      console.log(rawData.valueLogin, '合ってる')
     }
     console.log(
       'not found user with email/phone',
