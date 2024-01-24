@@ -2,6 +2,7 @@ import express from 'express'
 import userController from '../controller/userController'
 import apiController from '../controller/apiController'
 import groupController from '../controller/groupController'
+import roleController from '../controller/roleController'
 import { checkUserJWT, checkUserPermission } from '../middleware/JWTAction'
 
 const router = express.Router()
@@ -33,6 +34,11 @@ const initAPiRoutes = (app) => {
   router.post('/user/create', userController.createUser)
   router.put('/user/update', userController.updateUser)
   router.delete('/user/delete', userController.deleteUser)
+
+  router.get('/role/read', roleController.readUser)
+  router.post('/role/create', roleController.createUser)
+  router.put('/role/update', roleController.updateUser)
+  router.delete('/role/delete', roleController.deleteUser)
 
   router.get('/group/read', groupController.readGroup)
 
