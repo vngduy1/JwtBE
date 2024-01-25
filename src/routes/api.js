@@ -35,10 +35,10 @@ const initAPiRoutes = (app) => {
   router.put('/user/update', userController.updateUser)
   router.delete('/user/delete', userController.deleteUser)
 
-  router.get('/role/read', roleController.readUser)
-  router.post('/role/create', roleController.createUser)
+  router.get('/role/read', roleController.readRole)
+  router.post('/role/create', roleController.createRole)
   router.put('/role/update', roleController.updateUser)
-  router.delete('/role/delete', roleController.deleteUser)
+  router.delete('/role/delete', roleController.deleteRole)
 
   router.get('/group/read', groupController.readGroup)
 
