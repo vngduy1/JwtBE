@@ -1,35 +1,24 @@
 import roleApiService from '../service/roleApiService'
 
-const readUser = async (req, res) => {
+const readRole = async (req, res) => {
   try {
-    if (req.query.page && req.query.limit) {
-      let page = req.query.page
-      let limit = req.query.limit
-      let data = await userApiService.getUserWithPagination(+page, +limit)
-      return res.status(200).json({
-        EM: data.EM,
-        EC: data.EC,
-        DT: data.DT,
-      })
-    } else {
-      let data = await userApiService.getAllUser()
-      return res.status(200).json({
-        EM: data.EM,
-        EC: data.EC,
-        DT: data.DT,
-      })
-    }
+    let data = await roleApiService.getAllRoles()
+    return res.status(200).json({
+      EM: data.EM,
+      EC: data.EC,
+      DT: data.DT,
+    })
   } catch (error) {
     console.log(error)
     return res.status(500).json({
-      EM: 'error from readUser server',
+      EM: 'error from readRole server',
       EC: -1,
       DT: '',
     })
   }
 }
 
-const createUser = async (req, res) => {
+const createRole = async (req, res) => {
   try {
     //Validate sau do
     let data = await roleApiService.createNewRoles(req.body)
@@ -41,7 +30,7 @@ const createUser = async (req, res) => {
   } catch (error) {
     console.log(error)
     return res.status(500).json({
-      EM: 'error from createUser roleApiService server',
+      EM: 'error from createRole roleApiService server',
       EC: -1,
       DT: '',
     })
@@ -51,7 +40,7 @@ const createUser = async (req, res) => {
 const updateUser = async (req, res) => {
   try {
     //Validate sau do
-    let data = await userApiService.updateUser(req.body)
+    let data = await roleApiService.updateUser(req.body)
     return res.status(200).json({
       EM: data.EM,
       EC: data.EC,
@@ -67,9 +56,9 @@ const updateUser = async (req, res) => {
   }
 }
 
-const deleteUser = async (req, res) => {
+const deleteRole = async (req, res) => {
   try {
-    let data = await userApiService.deleteUser(req.body.id)
+    let data = await roleApiService.deleteRole(req.body.id)
     return res.status(200).json({
       EM: data.EM,
       EC: data.EC,
@@ -78,7 +67,7 @@ const deleteUser = async (req, res) => {
   } catch (error) {
     console.log(error)
     return res.status(500).json({
-      EM: 'error from deleteUser server',
+      EM: 'error from deleteRole server',
       EC: -1,
       DT: '',
     })
@@ -99,9 +88,9 @@ const getUserAccount = async (req, res) => {
 }
 
 module.exports = {
-  readUser,
-  createUser,
+  readRole,
+  createRole,
   updateUser,
-  deleteUser,
+  deleteRole,
   getUserAccount,
 }
