@@ -39,6 +39,7 @@ const initAPiRoutes = (app) => {
   router.post('/role/create', roleController.createRole)
   router.put('/role/update', roleController.updateUser)
   router.delete('/role/delete', roleController.deleteRole)
+  router.get('/role/by-group/:groupId', roleController.getRoleByGroup)
 
   router.get('/group/read', groupController.readGroup)
 
