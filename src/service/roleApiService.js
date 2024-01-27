@@ -10,7 +10,7 @@ const createNewRoles = async (roles) => {
       attributes: ['url', 'description'],
       raw: true,
     })
-    let persists = testArr.filter(
+    let persists = roles.filter(
       ({ url: url1 }) => !currentRoles.some(({ url: url2 }) => url1 === url2),
     )
     if (persists.length === 0) {
@@ -38,7 +38,7 @@ const createNewRoles = async (roles) => {
 
 const getAllRoles = async () => {
   try {
-    let data = await db.Role.findAll({ order: [['id', 'ASC']] })
+    let data = await db.Role.findAll({ order: [['id', 'DESC']] })
     return {
       EM: `get getAllRoles success `,
       EC: 0,
@@ -82,8 +82,42 @@ const deleteRole = async (id) => {
     })
   }
 }
+
+const getRoleByGroup = async (id) => {
+  try {
+    if (!id) {
+      return {
+        EM: `not found any getRoleByGroup error `,
+        EC: 0,
+        DT: [],
+      }
+    }
+
+    let roles = await db.Group.findOne({
+      where: { id: id },
+      include: {
+        model: db.Role,
+        attributes: ['id', 'url', 'description'],
+        through: { attributes: [] },
+      },
+    })
+    return {
+      EM: `get getRoleByGroup success `,
+      EC: 0,
+      DT: roles,
+    }
+  } catch (error) {
+    console.log(error)
+    return {
+      EM: 'error from getRoleByGroup server',
+      EC: 1,
+      DT: [],
+    }
+  }
+}
 module.exports = {
   createNewRoles,
   getAllRoles,
   deleteRole,
+  getRoleByGroup,
 }

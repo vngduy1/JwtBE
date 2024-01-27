@@ -74,17 +74,23 @@ const deleteRole = async (req, res) => {
   }
 }
 
-const getUserAccount = async (req, res) => {
-  return res.status(200).json({
-    EM: 'getUserAccount ok!!',
-    EC: 0,
-    DT: {
-      access_token: req.token,
-      groupWithRoles: req.user.groupWithRoles,
-      email: req.user.email,
-      username: req.user.username,
-    },
-  })
+const getRoleByGroup = async (req, res) => {
+  try {
+    let id = req.params.groupId
+    let data = await roleApiService.getRoleByGroup(id)
+    return res.status(200).json({
+      EM: data.EM,
+      EC: data.EC,
+      DT: data.DT,
+    })
+  } catch (error) {
+    console.log(error)
+    return res.status(500).json({
+      EM: 'error from getRoleByGroup server',
+      EC: -1,
+      DT: '',
+    })
+  }
 }
 
 module.exports = {
@@ -92,5 +98,5 @@ module.exports = {
   createRole,
   updateUser,
   deleteRole,
-  getUserAccount,
+  getRoleByGroup,
 }
